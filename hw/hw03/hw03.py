@@ -167,7 +167,13 @@ def flatten(lst):
     >>> x
     [[1, [1, 1]], 1, [1, 1]]
     """
-    "*** YOUR CODE HERE ***"
+    if lst == []:
+    	return lst
+    else:
+    	if type(lst[0]) == list:
+    		return flatten(lst[0]) + flatten(lst[1:])
+    	else:
+    		return lst[0:1] + flatten(lst[1:])
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
@@ -201,7 +207,15 @@ def move_stack(n, start, end):
     Move the top disk from rod 1 to rod 3
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
-    "*** YOUR CODE HERE ***"
+    def helper(n, start, immediate, end):
+    	if n == 1:
+    		print_move(start, end)
+    	else:
+    		helper(n - 1, start, end, immediate)
+    		print_move(start, end)
+    		helper(n - 1, immediate, start, end)
+    return helper(n, start, end - start, end)
+
 
 from operator import sub, mul
 
@@ -215,4 +229,12 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f: lambda x: f(f, x))(lambda g, y: y if y == 1 else mul(y, g(g, sub(y, 1))))
+    
+
+
+
+
+
+
+
